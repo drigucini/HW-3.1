@@ -1,9 +1,8 @@
-package service;
+package ru.hogwarts.school.service;
 
-import model.Student;
+import ru.hogwarts.school.model.Student;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface StudentService {
     Student createStudent(Student student);
@@ -11,4 +10,5 @@ public interface StudentService {
     Student updateStudent(Long studentID, Student student);
     Student deleteStudent(Long studentID);
     Collection<Student> getAll();
+    Collection<Student> getAllByAge(int age);
 }

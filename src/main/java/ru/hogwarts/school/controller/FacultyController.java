@@ -1,9 +1,9 @@
-package controller;
+package ru.hogwarts.school.controller;
 
-import model.Faculty;
+import ru.hogwarts.school.model.Faculty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.FacultyServiceImpl;
+import ru.hogwarts.school.service.FacultyServiceImpl;
 
 @RequestMapping("/faculty")
 @RestController
@@ -35,7 +35,7 @@ public class FacultyController {
         return ResponseEntity.ok(updatedFaculty);
     }
 
-    @PutMapping()
+    @DeleteMapping
     public ResponseEntity<Faculty> deleteFaculty(@RequestBody Long facultyID) {
         Faculty deletedFaculty = service.deleteFaculty(facultyID);
         return ResponseEntity.ok(deletedFaculty);
