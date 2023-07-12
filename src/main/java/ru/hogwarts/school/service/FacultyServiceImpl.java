@@ -1,6 +1,6 @@
-package service;
+package ru.hogwarts.school.service;
 
-import model.Faculty;
+import ru.hogwarts.school.model.Faculty;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Service
 public class FacultyServiceImpl {
-    private Map<Long, Faculty> facultyList = new HashMap<>();
+    private final Map<Long, Faculty> facultyList = new HashMap<>();
     private Long generatedFacultyID = 1L;
 
     public Faculty createFaculty(Faculty faculty) {

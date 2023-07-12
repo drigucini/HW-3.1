@@ -1,11 +1,8 @@
-package controller;
-
-import model.Student;
+package ru.hogwarts.school.controller;
+import ru.hogwarts.school.model.Student;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.StudentService;
-import service.StudentServiceImpl;
-
+import ru.hogwarts.school.service.StudentService;
 import java.util.Collection;
 
 @RestController
@@ -52,10 +49,8 @@ public class StudentController {
 
 
 
-//    @PutMapping()
-//    public Collection<Object> getStudentsByAge (@RequestBody Long age) {
-//        HashSet<Student> studentsByAge = new ArrayList<>(List.of(Student));
-//
-//        return studentsByAge;
-//    }
+    @GetMapping("/find")
+    public Collection<Student> getAllByAge (@RequestBody int age) {
+        return service.getAllByAge(age);
+    }
 }
