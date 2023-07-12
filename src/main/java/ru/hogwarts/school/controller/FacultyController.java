@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.service.FacultyServiceImpl;
 
+import java.util.Collection;
+
 @RequestMapping("/faculty")
 @RestController
 public class FacultyController {
@@ -39,5 +41,16 @@ public class FacultyController {
     public ResponseEntity<Faculty> deleteFaculty(@RequestBody Long facultyID) {
         Faculty deletedFaculty = service.deleteFaculty(facultyID);
         return ResponseEntity.ok(deletedFaculty);
+    }
+
+
+@GetMapping
+    public Collection<Faculty> getAllFaculty() {
+        return service.getAllFaculty();
+    }
+
+    @GetMapping("/find")
+    public Collection<Faculty> getAllByColor(@RequestParam String color) {
+        return service.getAllByColor(color);
     }
 }
