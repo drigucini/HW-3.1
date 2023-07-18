@@ -7,8 +7,8 @@ import java.util.Collection;
 public interface FacultyService {
     Faculty createFaculty(Faculty faculty);
     Faculty getFacultyByID(Long facultyID);
-    Faculty updateFaculty(Long facultyID, Faculty faculty);
-    Faculty deleteFaculty(Long facultyID);
+    Faculty updateFaculty(Faculty faculty);
+    void deleteFaculty(Long facultyID);
     Collection<Faculty> getAllFaculty();
     Collection<Faculty> getAllByColor(String color);
 }

@@ -1,42 +1,42 @@
 package ru.hogwarts.school.service;
 import ru.hogwarts.school.model.Faculty;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.repository.FacultyRepository;
+
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class FacultyServiceImpl implements FacultyService{
-    private final Map<Long, Faculty> facultyList = new HashMap<>();
-    private Long generatedFacultyID = 0L;
+private final FacultyRepository facultyRepository;
+
+    public FacultyServiceImpl(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
+    }
 
     @Override
     public Faculty createFaculty(Faculty faculty) {
-        faculty.setId(++generatedFacultyID);
-        facultyList.put(faculty.getId(), faculty);
-        return facultyList.get(faculty.getId());
+        return facultyRepository.save(faculty);
     }
 
     @Override
     public Faculty getFacultyByID(Long facultyID) {
-        return facultyList.get(facultyID);
+        return facultyRepository.findById(facultyID).orElse(null);
     }
 
     @Override
-    public Faculty updateFaculty(Long facultyID, Faculty faculty) {
-        facultyList.put(facultyID, faculty);
-        return faculty;
+    public Faculty updateFaculty(Faculty faculty) {
+        return facultyRepository.save(faculty);
     }
 
     @Override
-    public Faculty deleteFaculty(Long facultyID) {
-        return facultyList.remove(facultyID);
+    public void deleteFaculty(Long facultyID) {
+         facultyRepository.deleteById(facultyID);
     }
 
     @Override
     public Collection<Faculty> getAllFaculty() {
-        return facultyList.values();
+        return facultyRepository.findAll();
     }
 
     @Override
