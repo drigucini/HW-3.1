@@ -7,8 +7,8 @@ import java.util.Collection;
 public interface StudentService {
     Student createStudent(Student student);
     Student getStudentByID(Long studentID);
-    Student updateStudent(Long studentID, Student student);
-    Student deleteStudent(Long studentID);
+    Student updateStudent(Student student);
+    void deleteStudent(Long studentID);
     Collection<Student> getAll();
     Collection<Student> getAllByAge(int age);
 }

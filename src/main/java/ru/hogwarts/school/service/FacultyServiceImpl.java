@@ -1,8 +1,6 @@
 package ru.hogwarts.school.service;
-
 import ru.hogwarts.school.model.Faculty;
 import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
