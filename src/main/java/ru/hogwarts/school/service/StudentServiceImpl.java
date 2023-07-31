@@ -2,44 +2,43 @@ package ru.hogwarts.school.service;
 
 import ru.hogwarts.school.model.Student;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private final Map<Long, Student> students = new HashMap<>();
-    private Long counter = 0L;
+
+    private final StudentRepository studentRepository;
+
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     @Override
     public Student createStudent(Student student) {
-        student.setId(++counter);
-        students.put(student.getId(), student);
-
-        return students.get(student.getId());
+        return studentRepository.save(student);
     }
 
     @Override
     public Student getStudentByID(Long studentID) {
-        return students.get(studentID);
+        return studentRepository.findById(studentID).orElse(null);
     }
 
     @Override
-    public Student updateStudent(Long studentID, Student student) {
-        students.put(studentID, student);
-        return student;
+    public Student updateStudent(Student student) {
+        return studentRepository.save(student);
     }
 
     @Override
-    public Student deleteStudent(Long studentID) {
-        return students.remove(studentID);
+    public void deleteStudent(Long studentID) {
+        studentRepository.deleteById(studentID);
     }
 
     @Override
     public Collection<Student> getAll() {
-        return students.values();
+        return studentRepository.findAll();
     }
 
     @Override
@@ -49,5 +48,10 @@ public class StudentServiceImpl implements StudentService {
                 .filter(it -> it.getAge() == age)
                 .collect(Collectors.toList());
     }
+
+    public Collection<Student> findByAgeBetween(int min, int max){
+        return studentRepository.findByAgeBetween(min, max);
+    }
+
 
 }

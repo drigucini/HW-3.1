@@ -33,14 +33,13 @@ public class FacultyController {
 
     @PutMapping()
     public ResponseEntity<Faculty> updateFaculty(@RequestBody Faculty faculty) {
-        Faculty updatedFaculty = service.updateFaculty(faculty.getId(), faculty);
+        Faculty updatedFaculty = service.updateFaculty(faculty);
         return ResponseEntity.ok(updatedFaculty);
     }
 
     @DeleteMapping
-    public ResponseEntity<Faculty> deleteFaculty(@RequestBody Long facultyID) {
-        Faculty deletedFaculty = service.deleteFaculty(facultyID);
-        return ResponseEntity.ok(deletedFaculty);
+    public void deleteFaculty(@RequestBody Long facultyID) {
+        service.deleteFaculty(facultyID);
     }
 
 
