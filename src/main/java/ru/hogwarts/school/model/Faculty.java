@@ -1,8 +1,8 @@
 package ru.hogwarts.school.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Faculty {
@@ -12,6 +12,9 @@ public class Faculty {
     String name;
     String color;
 
+    @OneToMany
+    @JoinColumn(name = "faculty.id")
+    private Set<Student> students;
 
     public Long getId() {
         return id;

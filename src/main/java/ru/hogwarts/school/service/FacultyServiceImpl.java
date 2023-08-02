@@ -46,4 +46,9 @@ private final FacultyRepository facultyRepository;
                 .filter(it -> it.getColor().equals(color))
                 .collect(Collectors.toList());
     }
+    @Override
+    public Faculty findByColorOrName(String color, String name){
+        return facultyRepository.findByColorOrNameIgnoreCase(color, name);
+    }
+
 }

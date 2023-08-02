@@ -31,8 +31,14 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
+    @GetMapping("/findByNameOrColor")
+    public Faculty findByColorOrName(@RequestParam String color,@RequestParam String name) {
+       return service.findByColorOrName(color, name);
+    }
+
     @PutMapping()
     public ResponseEntity<Faculty> updateFaculty(@RequestBody Faculty faculty) {
+
         Faculty updatedFaculty = service.updateFaculty(faculty);
         return ResponseEntity.ok(updatedFaculty);
     }
