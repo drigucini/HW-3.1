@@ -12,8 +12,7 @@ public class Faculty {
     String name;
     String color;
 
-    @OneToMany
-    @JoinColumn(name = "faculty.id")
+    @OneToMany (mappedBy = "faculty")
     private Set<Student> students;
 
     public Long getId() {
