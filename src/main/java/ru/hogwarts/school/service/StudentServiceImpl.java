@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.repository.StudentRepository;
@@ -49,8 +50,16 @@ public class StudentServiceImpl implements StudentService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public Collection<Student> findByAgeBetween(int min, int max){
-        return studentRepository.findByAgeBetween(min, max);
+        return studentRepository.findAllByAgeBetweenOrderByAge(min, max);
+    }
+
+    @Override
+    public Faculty getFacultyOfStudent(Long studentId) {
+        return studentRepository.findById(studentId)
+                .map(Student::getFaculty)
+                .orElse(null);
     }
 
 
