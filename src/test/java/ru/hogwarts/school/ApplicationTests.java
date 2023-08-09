@@ -1,6 +1,6 @@
 package ru.hogwarts.school;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +9,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import ru.hogwarts.school.controller.FacultyController;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ApplicationTests {
+public class ApplicationTests {
 
     @LocalServerPort
     private int port;
@@ -21,8 +21,14 @@ class ApplicationTests {
     private TestRestTemplate restTemplate;
 
     @Test
-    void contextLoads() throws Exception{
-//        Assertions.assertThat(facultyController).isNotNull();
+    void contextLoads() throws Exception {
+        Assertions.assertThat(facultyController).isNotNull();
+    }
+    @Test
+    public void testGetFaculty() throws Exception {
+        Assertions
+                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/faculty", String.class))
+                .isNotNull();
     }
 
 }
