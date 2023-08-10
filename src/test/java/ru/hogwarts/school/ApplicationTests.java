@@ -30,5 +30,4 @@ public class ApplicationTests {
                 .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/faculty", String.class))
                 .isNotNull();
     }
-
 }
