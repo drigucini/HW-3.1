@@ -4,16 +4,15 @@ import ru.hogwarts.school.model.Faculty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.service.FacultyServiceImpl;
-
+import ru.hogwarts.school.service.FacultyService;
 import java.util.Collection;
 
 @RequestMapping("/faculty")
 @RestController
 public class FacultyController {
-    private final FacultyServiceImpl service;
+    private final FacultyService service;
 
-    public FacultyController(FacultyServiceImpl service) {
+    public FacultyController(FacultyService service) {
         this.service = service;
     }
 
