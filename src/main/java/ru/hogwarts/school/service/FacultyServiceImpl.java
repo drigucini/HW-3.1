@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
-import ru.hogwarts.school.model.Faculty;
+
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
@@ -9,8 +10,8 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
-public class FacultyServiceImpl implements FacultyService{
-private final FacultyRepository facultyRepository;
+public class FacultyServiceImpl implements FacultyService {
+    private final FacultyRepository facultyRepository;
     private final StudentRepository studentRepository;
 
     public FacultyServiceImpl(FacultyRepository facultyRepository, StudentRepository studentRepository) {
@@ -36,7 +37,7 @@ private final FacultyRepository facultyRepository;
 
     @Override
     public void deleteFaculty(Long facultyID) {
-         facultyRepository.deleteById(facultyID);
+        facultyRepository.deleteById(facultyID);
     }
 
     @Override
@@ -45,15 +46,8 @@ private final FacultyRepository facultyRepository;
     }
 
     @Override
-    public Collection<Faculty> getAllByColor(String color) {
-        return getAllFaculty()
-                .stream()
-                .filter(it -> it.getColor().equals(color))
-                .collect(Collectors.toList());
-    }
-    @Override
-    public Faculty findByColorOrName(String color, String name){
-        return facultyRepository.findByColorOrNameIgnoreCase(color, name);
+    public Collection<Faculty> findByColorOrName(String color, String name) {
+        return facultyRepository.findFacultiesByNameOrColorIgnoreCase(color, name);
     }
 
     @Override
