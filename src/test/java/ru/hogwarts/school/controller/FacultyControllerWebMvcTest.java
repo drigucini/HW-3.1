@@ -83,7 +83,7 @@ public class FacultyControllerWebMvcTest {
 
         MOCK_FACULTY.setName(MOCK_FACULTY_OTHER_NAME);
 
-        org.json.JSONObject updateFacultyRq = new org.json.JSONObject();
+        JSONObject updateFacultyRq = new JSONObject();
         updateFacultyRq.put("id", MOCK_FACULTY.getId());
         updateFacultyRq.put("name", MOCK_FACULTY.getName());
         updateFacultyRq.put("color", MOCK_FACULTY.getColor());
