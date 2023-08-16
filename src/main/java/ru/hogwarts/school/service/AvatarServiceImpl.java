@@ -1,11 +1,12 @@
 package ru.hogwarts.school.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.hogwarts.school.dto.AvatarDTO;
 import ru.hogwarts.school.exception.StudentIsNotFound;
+import ru.hogwarts.school.mapper.AvatarMapper;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
@@ -15,6 +16,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -22,10 +24,12 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class AvatarServiceImpl implements AvatarService {
     private final StudentRepository studentRepository;
     private final AvatarRepository avatarRepository;
+    private final AvatarMapper avatarMapper;
 
-    public AvatarServiceImpl(StudentRepository studentRepository, AvatarRepository avatarRepository) {
+    public AvatarServiceImpl(StudentRepository studentRepository, AvatarRepository avatarRepository, AvatarMapper avatarMapper) {
         this.studentRepository = studentRepository;
         this.avatarRepository = avatarRepository;
+        this.avatarMapper = avatarMapper;
     }
 
     @Value("${path.to.avatars.folder}")
@@ -78,9 +82,11 @@ public class AvatarServiceImpl implements AvatarService {
     }
 
     @Override
-    public Collection<Avatar> getAvatars(int pageNumber, int pageSize) {
+    public Collection<AvatarDTO> getAvatars(int pageNumber, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
-        return avatarRepository.findAll(pageRequest).getContent();
-
+        return avatarRepository.findAll(pageRequest).getContent()
+                .stream()
+                .map(avatarMapper::mapToDTO)
+                .collect(Collectors.toList());
     }
 }
