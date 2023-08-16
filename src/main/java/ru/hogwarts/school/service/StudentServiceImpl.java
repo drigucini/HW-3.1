@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,10 +63,19 @@ public class StudentServiceImpl implements StudentService {
                 .orElse(null);
     }
 
-//    @Override
-//    public Object add(Student student) {
-//        return null;
-//    }
+    @Override
+    public int countStudents() {
+        return studentRepository.countStudents();
+    }
 
+    @Override
+    public int getAverageAgeOfStudents() {
+        return studentRepository.getAverageAgeOfStudents();
+    }
+
+    @Override
+    public List<Student> getLast5StudentsOrderedById() {
+        return studentRepository.getLast5StudentsOrderedById();
+    }
 
 }

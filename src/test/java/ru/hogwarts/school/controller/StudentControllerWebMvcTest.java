@@ -1,6 +1,5 @@
 package ru.hogwarts.school.controller;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,6 @@ import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.StudentServiceImpl;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -78,9 +76,9 @@ public class StudentControllerWebMvcTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(MOCK_STUDENT_ID))
-                .andExpect(jsonPath("$.name").value(MOCK_STUDENT_NAME))
-                .andExpect(jsonPath("$.age").value(MOCK_STUDENT_AGE));
+                .andExpect(jsonPath("$.id").value(MOCK_STUDENT.getId()))
+                .andExpect(jsonPath("$.name").value(MOCK_STUDENT.getName()))
+                .andExpect(jsonPath("$.age").value(MOCK_STUDENT.getAge()));
     }
 
     @Test
