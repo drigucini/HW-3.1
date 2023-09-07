@@ -1,10 +1,15 @@
 package ru.hogwarts.school.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.hogwarts.school.Application;
+import ru.hogwarts.school.dto.AvatarDTO;
 import ru.hogwarts.school.exception.StudentIsNotFound;
+import ru.hogwarts.school.mapper.AvatarMapper;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
@@ -13,6 +18,8 @@ import ru.hogwarts.school.repository.StudentRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -20,10 +27,13 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class AvatarServiceImpl implements AvatarService {
     private final StudentRepository studentRepository;
     private final AvatarRepository avatarRepository;
+    private final AvatarMapper avatarMapper;
+    private Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
 
-    public AvatarServiceImpl(StudentRepository studentRepository, AvatarRepository avatarRepository) {
+    public AvatarServiceImpl(StudentRepository studentRepository, AvatarRepository avatarRepository, AvatarMapper avatarMapper) {
         this.studentRepository = studentRepository;
         this.avatarRepository = avatarRepository;
+        this.avatarMapper = avatarMapper;
     }
 
     @Value("${path.to.avatars.folder}")
@@ -31,6 +41,7 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public void uploadAvatar(long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("uploadAvatar method was invoked");
         Student student = studentRepository
                 .findById(studentId)
                 .orElseThrow(StudentIsNotFound::new);
@@ -39,6 +50,7 @@ public class AvatarServiceImpl implements AvatarService {
     }
 
     private Path uploadToDisk(Student student, MultipartFile avatarFile) throws IOException {
+        logger.info("uploadToDisk method was invoked");
         Path filePath = Path.of(
                 avatarsDir,
                 student.getName() + "Student-" + student.getId() + "." + getExtensions(avatarFile.getOriginalFilename()));
@@ -71,7 +83,18 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public Avatar findAvatar(Long studentId) {
+        logger.info("findAvatar method was invoked");
         Avatar avatar = avatarRepository.findByStudent_Id(studentId);
         return avatar == null ? new Avatar() : avatar;
+    }
+
+    @Override
+    public Collection<AvatarDTO> getAvatars(int pageNumber, int pageSize) {
+        logger.info("getAvatars method was invoked");
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return avatarRepository.findAll(pageRequest).getContent()
+                .stream()
+                .map(avatarMapper::mapToDTO)
+                .collect(Collectors.toList());
     }
 }
